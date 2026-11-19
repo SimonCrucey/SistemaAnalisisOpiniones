@@ -1,0 +1,4 @@
+IdOpinion,IdCliente,IdProducto,Fecha,Comentario,Clasificación,PuntajeSatisfacción,Fuente
+DEMO-CSV-1,DEMO-C1,DEMO-P1,2026-10-01,Encuesta ficticia de servicio,Positiva,90,EncuestaInterna
+DEMO-CSV-2,DEMO-C1,DEMO-P1,2026-10-02,Encuesta ficticia de entrega,Negativa,40,EncuestaInterna
+DEMO-CSV-3,DEMO-C1,DEMO-P1,2026-10-03,Encuesta ficticia de seguimiento,Neutra,60,EncuestaInterna

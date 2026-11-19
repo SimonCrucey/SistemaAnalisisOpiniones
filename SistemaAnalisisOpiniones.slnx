@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Api/">
+    <Project Path="Api/SistemaAnalisisOpiniones.Api.csproj" />
+  </Folder>
+  <Folder Name="/Data/">
+    <Project Path="Data/SistemaAnalisisOpiniones.Data.csproj" />
+  </Folder>
+  <Folder Name="/Process/">
+    <Project Path="Process/SistemaAnalisisOpiniones.Process.csproj" />
+  </Folder><Project Path="SistemaAnalisisOpiniones/SistemaAnalisisOpiniones.csproj" /></Solution>
