@@ -11,7 +11,7 @@ Práctica de Big Data del ITLA. Un Worker Service .NET 8 extrae encuestas CSV, r
 | `Process` | Worker Service, configuración, logs y publicación de lotes en staging. |
 | `SistemaAnalisisOpiniones` | Consola histórica que valida, transforma y puede cargar los seis CSV académicos. |
 
-Abre `SistemaAnalisisOpiniones.slnx` para cargar los cuatro proyectos. Consulta los [diagramas de arquitectura y flujo](Documentation/ArquitecturaExtraccion.md), el [informe técnico](Documentation/InformeTecnicoExtraccion.pdf) y la [evidencia de validación](Documentation/ValidacionExtraccion.md).
+Abre `SistemaAnalisisOpiniones.slnx` para cargar los cuatro proyectos. Consulta los [diagramas de arquitectura y flujo](Documentation/ArquitecturaExtraccion.md), el [informe técnico final de la práctica](Documentation/InformeTecnicoExtraccion.pdf) y la [evidencia de validación](Documentation/ValidacionExtraccion.md). El PDF del repositorio es la versión pública del informe académico.
 
 ## Requisitos
 

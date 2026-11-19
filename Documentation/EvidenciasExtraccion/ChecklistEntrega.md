@@ -7,7 +7,7 @@ Revisión del 19 de noviembre de 2026. Las rutas de los entregables son relativa
 | Código fuente y solución .NET 8 | `SistemaAnalisisOpiniones.slnx`, `Api/`, `Data/`, `Process/` y consola `SistemaAnalisisOpiniones/` | Completo y probado. |
 | Código en GitHub | `.gitignore` e instrucciones en `README.md` | Pendiente de autorización y publicación. |
 | Diagrama de arquitectura y diagrama de flujo ETL | `Documentation/ArquitecturaExtraccion.md` y página 2 del PDF | Revisados. Representan extracción y staging, con transformación, carga y dashboard como etapas futuras. |
-| Informe técnico | `Documentation/InformeTecnicoExtraccion.pdf` | Cuatro páginas revisadas visualmente. Diagramas legibles. El tiempo de 295 ms corresponde a la prueba automatizada. |
+| Informe técnico | `Documentation/InformeTecnicoExtraccion.pdf` | Versión pública del informe final de doce páginas. Incluye diagramas, código y las seis evidencias. La ejecución de la captura principal muestra 587 ms. |
 | Guía y pruebas | `README.md`, `tests/Validar-Extraccion.ps1`, `Documentation/ValidacionExtraccion.md` | Pruebas automatizadas documentadas. El reporte del estudiante y la inspección de staging constan en apartados propios. |
 | Capturas de la demostración | `Documentation/EvidenciasExtraccion/` | Pendientes de incorporar. |
 

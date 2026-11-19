@@ -36,3 +36,5 @@ secrets.json
 **/Documentation/Historico/
 **/Documentation/EvidenciasExtraccion/*
 !**/Documentation/EvidenciasExtraccion/ChecklistEntrega.md
+# Original académico con datos de portada y capturas locales.
+/Documentation/Informe Tecnico Desarrollo del Proceso ETL en .NET.pdf
