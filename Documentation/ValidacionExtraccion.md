@@ -1,5 +1,7 @@
 # Evidencia de validación de la extracción
 
+Este documento conserva pruebas de la práctica de extracción anterior. Los lotes de **703** corresponden a 500 encuestas, 200 reseñas y **tres comentarios REST de ejemplo**. Para el flujo definitivo de **900 originales**, consulta los [resultados de la carga dimensional](Resultados-Carga-Dimensional.md).
+
 ## Demostración reproducible con los archivos publicables
 
 El 19 de noviembre de 2026 se restauraron y compilaron los cuatro proyectos desde una copia temporal de los 45 archivos candidatos a GitHub, con cero errores y cero advertencias de compilación. Se ejecutó dos veces `demo/Preparar-Demo.sql` en SQL Server local. Las dos ejecuciones devolvieron 2 reseñas web en `AnalisisOpiniones_Demo_ITLA`.

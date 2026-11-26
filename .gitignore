@@ -32,9 +32,12 @@ secrets.json
 # Archivos de datos y evidencias previas que pueden contener registros personales.
 *.csv
 !/demo/encuestas-demo.csv
+!/demo/productos-dimensiones.csv
+!/demo/clientes-dimensiones.csv
 **/Documentation/Evidencias/
 **/Documentation/Historico/
 **/Documentation/EvidenciasExtraccion/*
 !**/Documentation/EvidenciasExtraccion/ChecklistEntrega.md
 # Original académico con datos de portada y capturas locales.
 /Documentation/Informe Tecnico Desarrollo del Proceso ETL en .NET.pdf
+/Documentation/InformeTecnicoExtraccion.pdf

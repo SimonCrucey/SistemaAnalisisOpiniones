@@ -1,5 +1,15 @@
 # Sistema de Análisis de Opiniones de Clientes
 
+## Carga de dimensiones
+
+La validación académica definitiva procesó **900 opiniones originales** y dejó **486 filas dimensionales y 160 equivalencias** en `DW_OpinionesClientes`. La segunda carga registró cero inserciones. Consulta los [resultados definitivos](Documentation/Resultados-Carga-Dimensional.md).
+
+Para trabajar con los seis CSV del profesor, sigue el [flujo académico de originales](Documentation/Origen-Academico.md). La API local lee `social_comments.csv`, el Worker comprueba la procedencia de las reseñas SQL y el lote contiene 500 encuestas, 200 reseñas y 200 comentarios. La carga corregida utiliza `DW_OpinionesClientes`. Antes de cargar el lote original completo, sigue la previsualización y reconciliación descritas en la guía.
+
+El Worker ofrece el modo `--load-dimensions` para validar un lote publicado y cargar las dimensiones respaldadas por los catálogos. Usa las conexiones `ConnectionStrings__TransactionDb` y `ConnectionStrings__DataWarehouse`, y las rutas `Dimensions__BatchPath`, `Dimensions__ProductsPath` y `Dimensions__ClientsPath`. El modo de extracción sigue siendo el predeterminado.
+
+La [guía de carga dimensional](Documentation/CargaDimensional.md) incluye requisitos, preparación del almacén demo, comandos de extracción y carga, verificación SQL, pruebas y limitaciones. `DimEvento` queda sin carga por ausencia de una fuente verificable. La transformación dimensional termina en las dimensiones y deja `FactOpiniones` fuera de las escrituras.
+
 Práctica de Big Data del ITLA. Un Worker Service .NET 8 extrae encuestas CSV, reseñas de SQL Server y comentarios de una API REST. Cada ejecución guarda tres archivos NDJSON y un manifiesto en staging. La transformación, la carga analítica y el dashboard corresponden a etapas futuras.
 
 ## Proyectos
@@ -11,13 +21,13 @@ Práctica de Big Data del ITLA. Un Worker Service .NET 8 extrae encuestas CSV, r
 | `Process` | Worker Service, configuración, logs y publicación de lotes en staging. |
 | `SistemaAnalisisOpiniones` | Consola histórica que valida, transforma y puede cargar los seis CSV académicos. |
 
-Abre `SistemaAnalisisOpiniones.slnx` para cargar los cuatro proyectos. Consulta los [diagramas de arquitectura y flujo](Documentation/ArquitecturaExtraccion.md), el [informe técnico final de la práctica](Documentation/InformeTecnicoExtraccion.pdf) y la [evidencia de validación](Documentation/ValidacionExtraccion.md). El PDF del repositorio es la versión pública del informe académico.
+Abre `SistemaAnalisisOpiniones.slnx` para cargar los cuatro proyectos. Consulta los [diagramas de arquitectura y flujo](Documentation/ArquitecturaExtraccion.md) y la [validación histórica de extracción](Documentation/ValidacionExtraccion.md). Para preparar y ejecutar también la **carga dimensional sintética**, sigue la [guía de demostración](Documentation/CargaDimensional.md).
 
 ## Requisitos
 
 - Windows y PowerShell 7 para los comandos y la suite.
 - SDK de .NET compatible con `.slnx` y `net8.0`, y runtimes .NET y ASP.NET Core 8. Comprueba con `dotnet --list-sdks` y `dotnet --list-runtimes`.
-- SQL Server local, SQLCMD o SSMS en modo SQLCMD. Necesitas permiso para crear la base de demostración y una identidad con permiso SELECT sobre `dbo.Opiniones` y `dbo.FuenteDatos` para ejecutar el Worker.
+- SQL Server local y **sqlcmd (ODBC)** o SSMS en modo SQLCMD. Los comandos de consola usan `-I` para activar `QUOTED_IDENTIFIER` y `-f 65001` para leer y mostrar UTF-8. Necesitas permiso para crear la base de demostración y una identidad con permiso SELECT sobre `dbo.Opiniones` y `dbo.FuenteDatos` para ejecutar el Worker.
 - Para usar el IDE, una versión de Visual Studio que admita `.slnx` y .NET 8.
 
 ## Demostración con los archivos del repositorio
@@ -29,7 +39,7 @@ Ejecuta los comandos desde la carpeta que contiene `SistemaAnalisisOpiniones.sln
 ```powershell
 dotnet restore .\SistemaAnalisisOpiniones.slnx -m:1
 dotnet build .\SistemaAnalisisOpiniones.slnx --no-restore -m:1
-sqlcmd -S localhost -E -C -b -i .\demo\Preparar-Demo.sql
+sqlcmd -S localhost -E -C -b -I -f 65001 -d master -i .\demo\Preparar-Demo.sql
 ```
 
 El script crea y puebla solo `AnalisisOpiniones_Demo_ITLA`. En una base de demostración recién creada, devuelve `ResenasWeb = 2`. Puedes repetirlo y verificar que el conteo sigue en 2. En SSMS también puedes abrir el script, activar **Consulta → Modo SQLCMD** y ejecutarlo. Si usas una instancia con nombre, sustituye `localhost` en SQLCMD y en la conexión del Worker por el mismo nombre de instancia. El ejemplo usa autenticación de Windows y confianza en el certificado del servidor local.
@@ -63,7 +73,7 @@ Las variables se aplican a esa sesión de PowerShell. El CSV sintético usa los 
 
 ### 4. Revisar el lote publicado
 
-Espera el mensaje `Lote publicado`. En una ejecución de demostración debes obtener **3 encuestas CSV, 2 reseñas SQL y 3 comentarios API**, para un total de **8 registros**. Los **703 registros** documentados en la práctica corresponden a los insumos académicos originales.
+Espera el mensaje `Lote publicado`. En una ejecución de demostración debes obtener **3 encuestas CSV, 2 reseñas SQL y 3 comentarios API**, para un total de **8 registros**. Los **703 registros** del informe anterior corresponden a 500 encuestas originales, 200 reseñas SQL y tres ejemplos REST. El flujo corregido con los originales procesa **900**.
 
 ```powershell
 $lote = Get-ChildItem -LiteralPath $env:Extraction__StagingPath -Directory |
@@ -91,7 +101,7 @@ Tras compilar en Debug y preparar la base sintética, conserva `ConnectionString
 .\tests\Validar-Extraccion.ps1 -Demo -Port 15187
 ```
 
-La suite comprueba la extracción, los tres NDJSON, el manifiesto, la reejecución y los casos de fallo. El modo académico original se ejecuta sin `-Demo`, con conexión a la base académica y los seis CSV autorizados en `SistemaAnalisisOpiniones/Data/`. Espera 500/200/3 y ejecuta la regresión de la consola.
+La suite comprueba la extracción, los tres NDJSON, el manifiesto, la reejecución y los casos de fallo. El modo académico original se ejecuta sin `-Demo`, con conexión a la base académica y los seis CSV autorizados en `SistemaAnalisisOpiniones/Data/`. Requiere `Extraction__AcademicDirectory`, espera 500/200/200, compara los comentarios con el CSV original y ejecuta la regresión de la consola.
 
 ## Consola histórica
 

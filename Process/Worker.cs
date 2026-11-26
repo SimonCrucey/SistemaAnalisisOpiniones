@@ -16,6 +16,7 @@ public sealed class Worker(
         var elapsed = Stopwatch.StartNew();
         try
         {
+            await staging.VerifySourcesAsync(stoppingToken);
             var pending = staging.BeginRun();
             logger.LogInformation("Iniciando extracción en {Pending}", pending);
             var results = await Task.WhenAll(extractors.Select(extractor => ExtractAsync(pending, extractor, stoppingToken)));
@@ -31,8 +32,8 @@ public sealed class Worker(
         catch (Exception exception)
         {
             Environment.ExitCode = 1;
-            logger.LogError("Falló el lote ({ErrorType}). Revise los eventos de las fuentes y el acceso a staging.",
-                exception.GetType().Name);
+            logger.LogError("Falló el lote ({ErrorType}). {Detail}", exception.GetType().Name,
+                exception is InvalidDataException invalid ? invalid.Message : "Revise los eventos de las fuentes y el acceso a staging.");
         }
         finally
         {
@@ -59,6 +60,7 @@ public sealed class Worker(
                 HttpRequestException http => $"HTTP {http.StatusCode?.ToString() ?? "error de conexión"}",
                 OperationCanceledException => "tiempo de espera agotado",
                 System.Text.Json.JsonException => "respuesta JSON inválida",
+                InvalidDataException invalid => invalid.Message,
                 IOException or UnauthorizedAccessException or Models.Csv.CsvFormatException => exception.Message,
                 System.Text.DecoderFallbackException => "archivo CSV con codificación UTF-8 inválida",
                 _ => exception.GetType().Name

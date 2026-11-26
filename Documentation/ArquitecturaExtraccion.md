@@ -41,3 +41,7 @@ flowchart TD
 | Integridad de lotes | Escritura exclusiva por archivo y publicación tras cerrar las fuentes y guardar el manifiesto. Directorios con fecha UTC y GUID. | La reejecución conserva ambos lotes. La deduplicación entre lotes pertenece a la transformación posterior. |
 
 El filtro SQL usa `PLATAFORMA:Web` para extraer las reseñas existentes. Los comentarios de la API se identifican individualmente como ejemplos académicos. El CSV conserva encabezados, números de línea y campos de origen. La tabla de hechos queda fuera del flujo.
+
+## Flujo académico corregido
+
+El diagrama incluye una API con ejemplos para la demo. En modo académico, [la API local sirve el CSV social original](Origen-Academico.md). El lote acreditado contiene 500 encuestas, 200 reseñas verificadas y 200 comentarios.

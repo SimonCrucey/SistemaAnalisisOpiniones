@@ -1,7 +1,9 @@
--- Ejecutar con sqlcmd o con el modo SQLCMD de SSMS.
+﻿-- Ejecutar con sqlcmd o con el modo SQLCMD de SSMS.
 :ON ERROR EXIT
 USE [master];
 GO
+IF DB_NAME() <> N'master'
+    THROW 50002, N'Conecta a master para preparar la base demo.', 1;
 IF DB_ID(N'AnalisisOpiniones_Demo_ITLA') IS NULL
     EXEC(N'CREATE DATABASE [AnalisisOpiniones_Demo_ITLA];');
 GO
@@ -10,6 +12,13 @@ GO
 IF DB_NAME() <> N'AnalisisOpiniones_Demo_ITLA'
     THROW 50001, 'La preparación solo puede ejecutarse en la base de demostración.', 1;
 
+SET QUOTED_IDENTIFIER ON;
+SET ANSI_NULLS ON;
+SET ANSI_PADDING ON;
+SET ANSI_WARNINGS ON;
+SET ARITHABORT ON;
+SET CONCAT_NULL_YIELDS_NULL ON;
+SET NUMERIC_ROUNDABORT OFF;
 SET NOCOUNT ON;
 SET XACT_ABORT ON;
 SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
